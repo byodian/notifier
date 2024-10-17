@@ -32,7 +32,6 @@ export default {
 			if (telegramResponse.ok) {
 				return new Response('Message sent to Telegram', { status: 200 })
 			} else {
-				console.log(telegramResponse)
 				return new Response(`Failed to send message to Telegram`, { status: 500 })
 			}
     } catch (error) {
@@ -44,16 +43,18 @@ export default {
 }
 
 function makeMessage(body) {
-	const repo = body.repository.repository
-	const repoUrl = body.repository.html_url
-	const stars = body.repository.stargazers_count
-	const forks = body.repository.forks_count
-	const sender = body.sender.login
-	const senderUrl = body.sender.html_url
+	const { 
+		name: repo, 
+		html_url: repoUrl, 
+		stargazers_count,
+		forks_count
+	} = body.repository
+
+	const { login: follwer, html_url: follwerUrl } = body.sender
 
 	return `
 New Github star for [${repo}](${repoUrl}) repo!
-The **${repo}** repo now has **${stars}** starts and **${forks}** forks!🎉
-Your new fan is [${sender}](${senderUrl})
+The ${repo} repo now has ${stargazers_count} starts and ${forks_count} forks!🎉
+Your new fan is [${follwer}](${follwerUrl})
 `
 }
