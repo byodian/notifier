@@ -8,19 +8,20 @@ export default {
     try {
 			const body = await request.json()
 
-			// 构建发送到 Telegram 的消息内容
 			let message = "Hello world"
 			if (githubEvent === 'watch') {
 				message = makeMessage(body)
 			}
 
-			// 发送消息到 Telegram
+			// send message to Telegram
+			// api docs -  https://core.telegram.org/bots/api#sendmessage
 			const telegramUrl = `https://api.telegram.org/bot${env.TELEGRAM_TOKEN}/sendMessage`
 
 			const telegramPayload = {
 				chat_id: env.TELEGRAM_CHAT_ID,
 				text: message,
-				parse_mode: "Markdown"
+				parse_mode: "Markdown",
+				link_preview_options: { is_disabled: true }
 			}
 
 			const telegramResponse = await fetch(telegramUrl, {
@@ -54,7 +55,7 @@ function makeMessage(body) {
 
 	return `
 New Github star for [${repo}](${repoUrl}) repo!
-The ${repo} repo now has ${stargazers_count} starts and ${forks_count} forks!🎉
+The *${repo}* repo now has *${stargazers_count}* starts and *${forks_count}* forks!🎉
 Your new fan is [${follwer}](${follwerUrl})
 `
 }
