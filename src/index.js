@@ -55,7 +55,7 @@ function makeMessage(body) {
 
 	return `
 New Github star for [${repo}](${repoUrl}) repo!
-The *${repo}* repo now has *${stargazers_count}* starts and *${forks_count}* forks!🎉
+The *${repo}* repo now has *${stargazers_count}* stars and *${forks_count}* forks!🎉
 Your new fan is [${follwer}](${follwerUrl})
 `
 }
