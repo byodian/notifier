@@ -1,17 +1,19 @@
+import getEventMessage from "./github"
+
 export default {
 	async fetch(request, env, ctx) {
 		if (request.method !== 'POST') {
 			return new Response('Invalid request method', { status: 405 })
 		}
 
+		if (!request.headers.has('X-GitHub-Event')) {
+			return new Response('Invalid github event', { status: 404 })
+		}
+
 		const githubEvent = request.headers.get('X-GitHub-Event')
     try {
 			const body = await request.json()
-
-			let message = "Hello world"
-			if (githubEvent === 'watch') {
-				message = makeMessage(body)
-			}
+			const message = getEventMessage(githubEvent, body)
 
 			// send message to Telegram
 			// api docs -  https://core.telegram.org/bots/api#sendmessage
