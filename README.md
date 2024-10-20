@@ -1,97 +1,122 @@
-# Notifier
+English | [中文](https://github.com/byodian/notifier/blob/main/README-zh.md)
 
-## 简介
-利用 GitHub Webhooks、Cloudflare Workers 和 Telegram Bot 来实现当有人给 GitHub 项目加星（star）时，发送通知到 Telegram。
+## Introduction
+Implement notifications to Telegram when GitHub repository star, issue, pull request, and fork events occur using GitHub Webhooks, Cloudflare Worker, and Telegram Bot.
 
-成功收到通知后会收到下面的信息。
+The event notification styles are as follows
 
-![notification](./docs/message.jpg)
+**Issue event message**
 
-## 原理
-核心思路：Star 事件触发 → GitHub Webhooks → Cloudflare Workers → Telegram Bot API → 发送消息到 Telegram 频道/个人
+![issue_change_message](./docs/message_issue.jpg)
 
-1. 当某人给 GitHub 仓库加星（Star）时，GitHub 触发 Star 事件。
+**Pull Request event message**
 
-2. 利用 GitHub Webhooks 发送 HTTP POST 请求
+![pull_request_message_change_message](./docs/message_pull_request.jpg)
 
-    GitHub Webhooks 会将此 Star 事件的信息通过 HTTP POST 请求发送到你预先配置的 URL，这个 URL 指向的是 Cloudflare Worker 的地址。
+**Star event message**
 
-3. 利用 Cloudflare Workers 处理请求：
+![star_message_change_message](./docs/message_star.jpg)
 
-    Cloudflare Worker 接收到 GitHub Webhook 的请求后，解析 Star 事件的详细信息（例如 Star 的用户、仓库名称等），并构建一条通知消息。
+**Fork event message**
 
-4. 调用 Telegram Bot API：
+![for_message_change_message](./docs/message_fork.jpg)
 
-    Cloudflare Worker 使用 Telegram Bot API，调用 sendMessage 方法，将构建好的通知消息发送到你指定的 Telegram 频道或个人聊天中。
+## Future Plans
+- [ ] Configure Stars milestones, send congratulatory messages when milestones are reached
+- [ ] Optimize the issue of too many messages when events occur frequently
+- [ ] Add data statistics functionality, send statistical data periodically
 
-5. 通过 Telegram 频道接受新的 Star 通知。
+## Principle
+Core idea: Star event occurs → GitHub Webhooks → Cloudflare Workers → Telegram Bot API → Send message to Telegram channel/individual
 
-具体实现：[index.js](./src/index.js)
+1. When someone stars a GitHub repository, GitHub triggers a Star event.
 
-以下是详细的步骤：
+2. Use GitHub Webhooks to send HTTP POST requests
 
-## 1. 创建 Telegram Bot 
+    GitHub Webhooks will send the information of this Star event via an HTTP POST request to a pre-configured URL, which points to the address of a Cloudflare Worker.
 
-这一步的目的是获取 Telegram Bot 的 `API Token`
+3. Use Cloudflare Workers to process requests:
 
-1. 打开 Telegram，搜索 BotFather，然后发送 /start。
-2. 使用 /newbot 命令来创建一个新机器人，并按照提示命名你的机器人。
-3. 创建成功后，BotFather 会提供一个 `API Token`，记下这个 Token，后续会用到。
+    After receiving the request from GitHub Webhook, the Cloudflare Worker parses the details of the Star event (e.g., the user who starred, repository name, etc.) and constructs a notification message.
 
-## 2. 创建 Telegram 频道或者群组
+4. Call Telegram Bot API:
 
-创建频道没什么好说的，主要是获取频道或者群组的 `chat_id`，后续会用到。
+    The Cloudflare Worker uses the Telegram Bot API, calling the sendMessage method to send the constructed notification message to your specified Telegram channel or personal chat.
 
-1. 将 Telegram Bot 邀请到你创建的个人频道或者群组中（使用 `username` 搜索 bot），并在群组中发送一条信息，比如 Hello World。
-2. 在浏览器中访问地址 https://api.telegram.org/bot<Your_Bot_Token>/getUpdates，在结果中会看到你刚刚发送的信息，找到对应的 `chat_id` 即可（`chat_id` 为 -100 开头）。
+5. Receive new Star notifications through the Telegram channel.
+
+Specific implementation: [index.js](./src/index.js)
+
+Here are the detailed steps:
+
+## 1. Create a Telegram Bot
+
+The purpose of this step is to obtain the `API Token` of the Telegram Bot
+
+1. Open Telegram, search for BotFather, then send `/start`.
+2. Use the `/newbot` command to create a new bot, and follow the prompts to name your bot.
+3. After successful creation, BotFather will provide an `API Token`. Note down this Token, it will be used later.
+
+## 2. Create a Telegram channel or group
+
+There's not much to say about creating a channel, the main thing is to get the `chat_id` of the channel or group, which will be used later.
+
+1. Invite the Telegram Bot to your created personal channel or group (search for the bot using its `username`), and send a message in the group, such as "Hello World".
+2. Visit [https://api.telegram.org/bot<Your_Bot_Token>/getUpdates](https://api.telegram.org/bot<Your_Bot_Token>/getUpdates) in your browser. You will see the message you just sent in the results. Find the corresponding `chat_id` (the `chat_id` starts with -100).
 
     ![chat_id](./docs/chat_id.png)
 
-## 3. 部署 Cloudflare worker
+## 3. Deploy Cloudflare worker
 
-步骤：克隆该项目、安装依赖、配置环境变量以及部署应用到 cloudflare（键入部署命令后，会弹出授权登陆到 cloudflare 的网页）
+Steps: 
+1. Clone the project
+2. Install dependencies
+3. configure environment variables
+4. Deploy the application to Cloudflare (after entering the deployment command, a web page will pop up for authorization login to Cloudflare)
 
 ```
-# 克隆项目
+# Clone the project
 git clone https://github.com/byodian/notifier
 
 cd notifier
 
-# 安装依赖
+# Install dependencies
 pnpm install
 
-# 配置环境变量（密钥）
+# Configure environment variables (secrets)
 # 1. Telegram Bot API Token
 npx wrangler secret put TELEGRAM_TOKEN
 
 # 2. Channel chat_id
 npx wrangler secret put TELEGRAM_CHAT_ID
 
-# 部署 Cloudflare worker
+# Deploy Cloudflare worker
 pnpm run deploy
 ```
 
-打开 Cloudflare 网站获取 Worker URL 后续会用到。
+Open the Cloudflare website to get the Worker URL, which will be used later.
 
-## 4. 配置 Github Webhooks
+## 4. Configure Github Webhooks
 
-1. 前往你的开源 GitHub 仓库。
-2. 点击 Settings > Webhooks > Add webhook。
-3. 在 Payload URL 中填写 Cloudflare Worker 的 URL。
-4. 在 Content type 选择 `application/json`。
+1. Go to your open-source GitHub repository.
+2. Click Settings > Webhooks > Add webhook.
+3. Fill in the Cloudflare Worker URL in the Payload URL.
+4. Choose `application/json` for Content type.
 
     ![Github Webhooks](./docs/webhooks.png)
-5. 密钥 Secret 可选
-5. 在 Which events would you like to trigger this webhook? 选择 Let me select individual events，然后勾选 Watches。
-点击 Add webhook。
+5. Secret is optional
+6. In "Which events would you like to trigger this webhook?", select "Let me select individual events", then check Stars, Issues, Pull Requests, and Forks.
+Click Add webhook.
 
-    ![Watches](./docs/watches.png)
+    ![webhooks_settings](./docs/webhooks_settings.png)
 
-## 5. 测试和调试
-1. 在 Github 上 Star 你的仓库
+    ![webhooks_settings_stars](./docs/webhooks_stars.png)
 
-2. 观察 Cloudflare Worker 日志以及 Github 推送日志，在这些日志中你都能看到具体的请求和响应信息。
+## 5. Testing and Debugging
+1. Star your repository on Github
+
+2. Observe the Cloudflare Worker logs and Github push logs. You can see specific request and response information in these logs.
 
     ![Github_logs](./docs/delivery.png)
 
-3. 在 Telegram 中查看是否收到 Star 通知。
+3. Check if you received a Star notification in Telegram.
