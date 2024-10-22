@@ -21,8 +21,12 @@ The event notification styles are as follows
 
 ![for_message_change_message](./docs/message_fork.jpg)
 
+**Stars milestone message**
+
+![star_milestone](./docs/milestone.jpeg)
+
 ## Future Plans
-- [ ] Configure Stars milestones, send congratulatory messages when milestones are reached
+- [x] Configure Stars milestones, send congratulatory messages when milestones are reached
 - [ ] Optimize the issue of too many messages when events occur frequently
 - [ ] Add data statistics functionality, send statistical data periodically
 
@@ -92,6 +96,12 @@ npx wrangler secret put TELEGRAM_CHAT_ID
 
 # Deploy Cloudflare worker
 pnpm run deploy
+```
+
+Configure GitHub Stars milestones in wrangler.toml
+```
+[vars]
+MILESTONES = [10,50,100,500,1000,5000,100000]
 ```
 
 Open the Cloudflare website to get the Worker URL, which will be used later.

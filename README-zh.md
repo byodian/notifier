@@ -22,8 +22,12 @@
 
 ![for_message_change_message](./docs/message_fork.jpg)
 
+**Stars里程碑消息**
+
+![stars_milestone](./docs/milestone.jpeg)
+
 ## 未来计划
-- [ ] 配置 Stars 里程碑，达到里程碑后，发送祝贺消息
+- [x] 配置 Stars 里程碑，达到里程碑后，发送祝贺图片
 - [ ] 优化事件频繁发生，消息过多问题
 - [ ] 增加数据统计功能，定期发送统计数据
 
@@ -93,6 +97,13 @@ npx wrangler secret put TELEGRAM_CHAT_ID
 
 # 部署 Cloudflare worker
 pnpm run deploy
+```
+
+在 `wrangler.toml` 中配置 GitHub 仓库的 Stars 里程碑节点
+
+```
+[vars]
+MILESTONES = [10,50,100,500,1000,5000,100000]
 ```
 
 打开 Cloudflare 网站获取 Worker URL 后续会用到。

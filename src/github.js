@@ -1,3 +1,5 @@
+import { stores } from "./stores"
+
 // event types
 const events = {
   issues : 'issues',
@@ -18,7 +20,7 @@ const actions = {
  * Function to get the event message
  * @param {string} event github event - issues, pull_request, star
  * @param {Object} body
- * @returns 
+ * @returns
  */
 export default function getEventMessage(event, body) {
   const strategy = getStrategy(event)
@@ -40,12 +42,12 @@ function getStrategy(event) {
 function issuesEventHandler(body) {
   const {
     action,
-    repository: { 
-      name: repo, 
+    repository: {
+      name: repo,
       html_url: repoUrl,
     },
-    issue: { 
-      html_url: issueUrl, 
+    issue: {
+      html_url: issueUrl,
       user: {
         login: issueCreator,
         html_url: issueCreatorUrl
@@ -56,7 +58,7 @@ function issuesEventHandler(body) {
   if (action === actions.opened) {
     return `
 [Issue](${issueUrl}) opened in [${repo}](${repoUrl}) repo by [${issueCreator}](${issueCreatorUrl})!
-Great chance to improve your project! 🚀 
+Great chance to improve your project! 🚀
 Let's keep making *${repo}* better! 🌟
 `
   }
@@ -64,7 +66,7 @@ Let's keep making *${repo}* better! 🌟
   if (action === actions.closed) {
     return `
 [Issue](${issueUrl}) closed in [${repo}](${repoUrl}) repo!
-Nice! You’ve made *${repo}* stronger. 
+Nice! You’ve made *${repo}* stronger.
 Keep it up! 💪
 `
   }
@@ -75,12 +77,12 @@ Keep it up! 💪
 function pullRequestEventHandler(body) {
   const {
     action,
-    repository: { 
-      name: repo, 
+    repository: {
+      name: repo,
       html_url: repoUrl,
     },
-    pull_request: { 
-      html_url: prUrl, 
+    pull_request: {
+      html_url: prUrl,
       user: {
         login: prCreator,
         html_url: prCreatorUrl
@@ -97,7 +99,7 @@ Your hard work is getting recognized! 💡
   if (action === actions.closed) {
     return `
 [Pull request](${prUrl}) closed in [${repo}](${repoUrl}) repo!
-Contribution reviewed and done! 
+Contribution reviewed and done!
 *${repo}* is growing stronger! 👏
 `
   }
@@ -108,17 +110,21 @@ Contribution reviewed and done!
 function starEventHandler(body) {
   const {
     action,
-    repository: { 
-      name: repo, 
+    repository: {
+      name: repo,
       html_url: repoUrl,
       stargazers_count,
       forks_count
     },
-    sender: { 
-      login: sender, 
+    sender: {
+      login: sender,
       html_url: senderUrl
     },
   } = body
+  stores.stars = stargazers_count
+  stores.forks = forks_count
+  stores.repo = repo
+  stores.action = action
   if (action === actions.created) {
     return `
 Star created for [${repo}](${repoUrl}) repo!
@@ -140,18 +146,18 @@ Don’t worry, keep going!  More stars will come. 🌱
 
 function forkEventHandler(body) {
   const {
-    repository: { 
-      name: repo, 
+    repository: {
+      name: repo,
       html_url: repoUrl,
     },
-    sender: { 
-      login: sender, 
+    sender: {
+      login: sender,
       html_url: senderUrl
     },
   } = body
 
   return `
-The Repo [${repo}](${repoUrl}) has been forked by [${sender}](${senderUrl})!
+The repo [${repo}](${repoUrl}) has been forked by [${sender}](${senderUrl})!
 Your project is spreading!
 *${repo}* is reaching more people! 🌍
 `

@@ -3,6 +3,9 @@ name = "notifier"
 main = "src/index.js"
 compatibility_date = "2024-10-11"
 compatibility_flags = ["nodejs_compat"]
+rules = [
+  { type = "Text", globs = ["**/*.svg"], fallthrough = true }
+]
 
 # Workers Logs
 # Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/
@@ -22,8 +25,8 @@ enabled = true
 # - https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
 # Note: Use secrets to store sensitive data.
 # - https://developers.cloudflare.com/workers/configuration/secrets/
-# [vars]
-# MY_VARIABLE = "production_value"
+[vars]
+MILESTONES = [10,50,100,500,1000,5000,100000]
 
 # Bind the Workers AI model catalog. Run machine learning models, powered by serverless GPUs, on Cloudflare’s global network
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#workers-ai
