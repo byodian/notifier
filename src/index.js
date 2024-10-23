@@ -28,7 +28,7 @@ export default {
           stores.action === 'created' && 
           env.MILESTONES.includes(stores.stars)) {
         try {
-          const photoBuffer = await getMilestonePng(stores.stars)
+          const photoBuffer = await getMilestonePng(stores)
           await sendTelegramPhoto(env.TELEGRAM_TOKEN, env.TELEGRAM_CHAT_ID, photoBuffer)
         } catch (error) {
           console.log('Failed to send milestone photo:', error.message)

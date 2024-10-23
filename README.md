@@ -23,7 +23,7 @@ The event notification styles are as follows
 
 **Stars milestone message**
 
-![star_milestone](./docs/milestone.jpeg)
+![star_milestone](./docs/milestone.jpg)
 
 ## Future Plans
 - [x] Configure Stars milestones, send congratulatory messages when milestones are reached

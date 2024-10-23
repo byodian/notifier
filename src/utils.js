@@ -6,11 +6,18 @@ initialize(wasm).catch((error) => {
 	console.log('initialize error: ', error)
 });
 
-export async function getMilestonePng(stars) {
+/**
+ * 
+ * @param {Object} stores
+ * @param {string} stores.repo 
+ * @param {string} stores.stars
+ * @returns 
+ */
+export async function getMilestonePng(stores) {
 	const fontFamily = 'Titan+One'
 	const fontData = await loadFont(fontFamily);
 
-	const svg = milestonesvg(formatToK(stars))
+	const svg = milestonesvg(formatToK(stores.stars), stores.repo)
 
 	const options = {
 		fonts: await Promise.all([new Uint8Array(fontData)]),

@@ -24,7 +24,7 @@
 
 **Stars里程碑消息**
 
-![stars_milestone](./docs/milestone.jpeg)
+![stars_milestone](./docs/milestone.jpg)
 
 ## 未来计划
 - [x] 配置 Stars 里程碑，达到里程碑后，发送祝贺图片
