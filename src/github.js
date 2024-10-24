@@ -22,7 +22,7 @@ const actions = {
  * @param {Object} body
  * @returns
  */
-export default function getEventMessage(event, body) {
+export function getEventMessage(event, body) {
   const strategy = getStrategy(event)
   return strategy(body)
 }
