@@ -26,7 +26,7 @@ enabled = true
 # Note: Use secrets to store sensitive data.
 # - https://developers.cloudflare.com/workers/configuration/secrets/
 [vars]
-MILESTONES = [10,25,50,75,100,200,300,400,500,750,1000,1500,2000,3000,5000,100000]
+MILESTONES = [10,25,50,75,100,200,250,300,350,400,450,500,550,650,750,850,950,1000,1500,2000,3000,5000,100000]
 
 # Bind the Workers AI model catalog. Run machine learning models, powered by serverless GPUs, on Cloudflare’s global network
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#workers-ai

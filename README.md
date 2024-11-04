@@ -27,7 +27,7 @@ The event notification styles are as follows
 
 ## Future Plans
 - [x] Configure Stars milestones, send congratulatory messages when milestones are reached
-- [ ] Optimize the issue of too many messages when events occur frequently
+- [ ] ~~Optimize the issue of too many messages when events occur frequently~~ (Pseudo-requirement — If events are frequent, you can resolve this by turning off TG notifications)
 - [ ] Add data statistics functionality, send statistical data periodically
 
 ## Principle
