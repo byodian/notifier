@@ -1,7 +1,9 @@
 # Notifier
 
 ## 简介
-通过 GitHub Webhooks、Cloudflare Worker 和 Telegram Bot 实现当 Github 仓库 star、issue、pull request 和 fork 事件发生时，将通知发送到 Telegram。
+通过 GitHub Webhooks、Cloudflare Worker 和 Telegram Bot 实现当 Github 仓库事件发生时，将通知发送到 Telegram。
+
+支持的通知类型：Star、Fork、Issues、Pull Requests、Commit comments（提交评论）、Discussion comments（讨论评论）、Discussions（讨论）、Issue comments（Issue 评论）、Packages（软件包）、Pull request review comments（PR 评审评论）、Pull request review threads（PR 评审线程）、Pull request reviews（PR 评审）、Registry packages（仓库包）、Pushes（推送）、Releases（发布）、Watches（关注）和 Workflow runs（工作流运行）。
 
 事件通知样式如下：
 
@@ -117,7 +119,7 @@ MILESTONES = [10,50,100,500,1000,5000,100000]
 
     ![Github Webhooks](./docs/webhooks.png)
 5. 密钥 Secret 可选
-5. 在 Which events would you like to trigger this webhook? 选择 Let me select individual events，然后勾选 Stars、Issues、Pull Requests 和 Forks。
+5. 在 Which events would you like to trigger this webhook? 选择 Let me select individual events，然后勾选 Stars、Issues、Pull Requests、Forks，以及其余需要接收通知的事件类型（Commit comments、Discussion comments、Discussions、Issue comments、Packages、Pull request review comments、Pull request review threads、Pull request reviews、Registry packages、Pushes、Releases、Watches、Workflow runs）。
 点击 Add webhook。
 
     ![webhooks_settings](./docs/webhooks_settings.png)
