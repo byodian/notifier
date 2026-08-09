@@ -1,7 +1,9 @@
 English | [中文](https://github.com/byodian/notifier/blob/main/README-zh.md)
 
 ## Introduction
-Implement notifications to Telegram when GitHub repository star, issue, pull request, and fork events occur using GitHub Webhooks, Cloudflare Worker, and Telegram Bot.
+Implement notifications to Telegram when GitHub repository events occur using GitHub Webhooks, Cloudflare Worker, and Telegram Bot.
+
+Supported event types: Star, Fork, Issues, Pull requests, Commit comments, Discussion comments, Discussions, Issue comments, Packages, Pull request review comments, Pull request review threads, Pull request reviews, Registry packages, Pushes, Releases, Watches, and Workflow runs.
 
 The event notification styles are as follows
 
@@ -115,7 +117,7 @@ Open the Cloudflare website to get the Worker URL, which will be used later.
 
     ![Github Webhooks](./docs/webhooks.png)
 5. Secret is optional
-6. In "Which events would you like to trigger this webhook?", select "Let me select individual events", then check Stars, Issues, Pull Requests, and Forks.
+6. In "Which events would you like to trigger this webhook?", select "Let me select individual events", then check Stars, Issues, Pull Requests, Forks, and any of the other supported event types you want to be notified about (Commit comments, Discussion comments, Discussions, Issue comments, Packages, Pull request review comments, Pull request review threads, Pull request reviews, Registry packages, Pushes, Releases, Watches, and Workflow runs).
 Click Add webhook.
 
     ![webhooks_settings](./docs/webhooks_settings.png)
